@@ -1,16 +1,15 @@
 # ALPA CAFÉ - Landing Page
 
-A modern, responsive landing page for **ALPA CAFÉ**, a specialty coffee shop in Córdoba, Argentina. Built with **Next.js 14**, **Tailwind CSS**, and **shadcn/ui**-style components.
+A modern, responsive landing page for **ALPA CAFÉ**, a specialty coffee shop in Córdoba, Argentina. Built with **Next.js 14**, **Tailwind CSS**, and shared UI components (CVA + `cn` utility).
 
 ## Features
 
 - **Next.js 14** (App Router) with TypeScript
-- **Tailwind CSS** - Linktree-inspired light/dark theme
-- **shadcn/ui** - Button and Card components (CVA + `cn` utility)
-- **Dark / light mode** - `next-themes` with system preference and persistence
-- **English & Spanish** - Client-side language switch (default: Spanish), persisted in `localStorage`
-- **Responsive** - Mobile-first, hamburger menu on small screens
-- **SEO** - Metadata, Open Graph, semantic HTML, skip link
+- **Tailwind CSS** – Dark theme with brand palette (white, grey, black)
+- **Shared UI** – Button, Heading, Subtitle, ScrollSpy (CVA + `cn`)
+- **Responsive** – Mobile-first, hamburger menu on small screens
+- **Contact form** – Server action with Resend, Zod validation
+- **SEO** – Metadata, sitemap, robots.txt, semantic HTML, skip link
 
 ## Initial setup
 
@@ -46,18 +45,17 @@ Deploy to **Vercel**, **Netlify**, or any Node host that supports Next.js.
 
 **Before going live:**
 
-1. Set **canonical URL** and **Open Graph** `url` in `app/layout.tsx` metadata (or via env).
+1. Set **canonical URL** and **Open Graph** `url` in `app/layout.tsx` metadata (or via `NEXT_PUBLIC_BASE_URL`).
 2. Add **og:image** in metadata for social previews.
-3. Replace the location map placeholder with an embedded map or keep the “Open in maps” link.
-4. Update contact links if needed in the Linktree and in `components/contact-section.tsx`.
+3. Configure contact env vars (`RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`) and update contact links in `lib/constants.ts` and `components/features/Contact/` if needed.
 
 ## Structure
 
-- `app/` - Layout, page, global styles
-- `components/` - Header, Hero, About, Menu, Links, Location, Contact, Footer; `ui/` for Button, Card
-- `context/` - LanguageProvider (i18n state + `localStorage`)
-- `lib/` - `translations.ts`, `utils.ts` (cn)
-- `tailwind.config.ts` - Theme (CSS variables for shadcn-style tokens)
+- `app/` – Layout, page, global styles
+- `components/features/` – Hero, About, Menu, Products, Events, Contact (section components + data)
+- `components/shared/` – layout (Header, Footer, Section, Container), ui (Button, Heading, Subtitle, ScrollSpy), icons
+- `lib/` – `config.ts` (env), `constants.ts` (URLs, nav, section IDs), `utils.ts` (`cn`)
+- `tailwind.config.ts` – Theme (CSS variables, font)
 
 ## Tech stack
 
@@ -65,4 +63,5 @@ Deploy to **Vercel**, **Netlify**, or any Node host that supports Next.js.
 - Tailwind CSS
 - ESLint (next), Prettier
 - Husky (pre-commit: lint)
-- class-variance-authority, clsx, tailwind-merge (shadcn-style)
+- Resend (contact form), Zod (validation)
+- class-variance-authority, clsx, tailwind-merge
