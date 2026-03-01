@@ -21,7 +21,7 @@ export function Footer() {
               src={IMAGE_URL.LOGO.LOGO_WORDMARK}
               alt="ALPA CAFÉ"
               height={40}
-              width={40 * 3}
+              width={120}
               className="object-contain"
             />
             <p className="mt-2 text-sm leading-relaxed">

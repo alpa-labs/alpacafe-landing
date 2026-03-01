@@ -3,20 +3,25 @@ import { z } from 'zod';
 export const contactSchema = z.object({
   name: z
     .string()
-    .min(1, 'El nombre es obligatorio')
-    .max(120, 'Nombre demasiado largo')
+    .min(0)
+    .refine((val) => {
+      const trimmed = val.trim();
+      return trimmed.length === 0 || trimmed.length >= 2;
+    }, 'El nombre debe tener al menos 2 caracteres')
+    .refine((val) => {
+      const trimmed = val.trim();
+      return trimmed.length === 0 || trimmed.length <= 50;
+    }, 'El nombre no puede tener más de 50 caracteres')
     .transform((s) => s.trim()),
   email: z
     .string()
     .min(1, 'El correo es obligatorio')
-    .email('Correo no válido'),
+    .pipe(z.email({ message: 'Correo inválido' })),
   message: z
     .string()
-    .min(1, 'El mensaje es obligatorio')
-    .max(2000, 'Mensaje demasiado largo')
+    .min(10, 'El mensaje debe tener al menos 10 caracteres')
+    .max(500, 'El mensaje supera el límite máximo de caracteres')
     .transform((s) => s.trim()),
-  // Honeypot: must be empty (bots often fill all fields)
-  website: z.literal('').optional().or(z.string().max(0)),
 });
 
 export type ContactSchema = z.infer<typeof contactSchema>;

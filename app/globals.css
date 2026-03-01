@@ -203,6 +203,30 @@ body {
   .btn-variant-ghost:hover svg {
     fill: hsl(var(--brand-white)) !important;
   }
+
+  /* ============================================
+     FORM STYLES
+     ============================================ */
+  .form-field-base {
+    @apply w-full rounded-lg border-[2px] bg-[hsl(var(--brand-grey))] px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary;
+  }
+
+  .form-field-base:invalid,
+  .form-field-error {
+    @apply border-red-500 focus:ring-red-500;
+  }
+
+  .form-label {
+    @apply ml-1.5 mb-1.5 block text-sm font-medium text-foreground;
+  }
+
+  .form-helper-text {
+    @apply ml-1.5 mt-1.5 text-xs text-muted-foreground;
+  }
+
+  .form-error-text {
+    @apply ml-1.5 mt-1.5 text-xs text-red-500;
+  }
 }
 
 /* ============================================
