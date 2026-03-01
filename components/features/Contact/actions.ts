@@ -1,8 +1,8 @@
 'use server';
 
+import { randomUUID } from 'crypto';
 import { Resend } from 'resend';
 import { headers } from 'next/headers';
-import { config } from '@/lib/config';
 import { checkRateLimitFromHeaders } from '@/lib/rate-limit';
 import { contactSchema, type ContactSchema } from './contactSchema';
 
@@ -29,6 +29,19 @@ export async function submitContact(
     return {
       success: false,
       error: 'Datos inválidos. Por favor, verificá el formulario.',
+      field: 'form',
+    };
+  }
+
+  // Verify turnstile token
+  const isTurnstileValid = await verifyTurnstileToken(
+    data.turnstileToken || '',
+  );
+  if (!isTurnstileValid) {
+    return {
+      success: false,
+      error:
+        'El token de verificación es inválido. Por favor, intentá nuevamente.',
       field: 'form',
     };
   }
@@ -65,7 +78,7 @@ function buildContactEmail({ name, email, message }: ContactSchema) {
   const escapedName = escapeHtml(name);
   const escapedEmail = escapeHtml(email);
   const escapedMessage = escapeHtml(message).replace(/\n/g, '<br/>');
-  const escapedBaseUrl = escapeHtml(config.site.baseUrl);
+  const escapedBaseUrl = escapeHtml(process.env.NEXT_PUBLIC_BASE_URL || '');
 
   return {
     subject: `Nuevo mensaje de contacto de ${escapedEmail}`,
@@ -95,17 +108,18 @@ async function sendEmail({
   subject: string;
   html: string;
 }) {
-  const { apiKey, fromEmail, toEmail } = config.resend;
-  if (!apiKey) {
+  const { RESEND_API_KEY, RESEND_FROM_EMAIL, RESEND_TO_EMAIL } = process.env;
+  if (!RESEND_API_KEY || !RESEND_FROM_EMAIL || !RESEND_TO_EMAIL) {
     return {
-      error: 'El envío no está configurado. Escribinos a alpacafe@gmail.com.',
+      error:
+        'El envío no está configurado. Escribinos por nuestras redes sociales.',
     };
   }
   try {
-    const resend = new Resend(apiKey);
+    const resend = new Resend(RESEND_API_KEY);
     const { error } = await resend.emails.send({
-      from: fromEmail,
-      to: toEmail,
+      from: RESEND_FROM_EMAIL,
+      to: RESEND_TO_EMAIL,
       replyTo,
       subject,
       html,
@@ -118,7 +132,7 @@ async function sendEmail({
       };
     }
 
-    console.log('Email sent successfully to:', toEmail);
+    console.log('Email sent successfully to:', RESEND_TO_EMAIL);
     return { success: true };
   } catch (error) {
     console.error('Unexpected error:', error);
@@ -126,4 +140,76 @@ async function sendEmail({
       error: 'Ocurrió un error. Intentá más tarde.',
     };
   }
+}
+
+/**
+ * https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
+ */
+async function verifyTurnstileWithRetry(
+  token: string,
+  remoteip: string,
+  maxRetries = 3,
+): Promise<{ success: boolean }> {
+  const { TURNSTILE_SECRET_KEY } = process.env;
+  if (!TURNSTILE_SECRET_KEY) {
+    return { success: false };
+  }
+
+  const idempotencyKey = randomUUID();
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const formData = new FormData();
+      formData.append('secret', TURNSTILE_SECRET_KEY);
+      formData.append('response', token);
+      formData.append('remoteip', remoteip);
+      formData.append('idempotency_key', idempotencyKey);
+
+      const response = await fetch(
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      );
+
+      const result = (await response.json()) as { success: boolean };
+
+      if (response.ok) {
+        return result;
+      }
+
+      if (attempt === maxRetries) {
+        return result;
+      }
+
+      await new Promise((resolve) =>
+        setTimeout(resolve, Math.pow(2, attempt) * 1000),
+      );
+    } catch (error) {
+      console.error(`Turnstile verify attempt ${attempt} failed:`, error);
+      if (attempt === maxRetries) {
+        return { success: false };
+      }
+    }
+  }
+
+  return { success: false };
+}
+
+function getClientIp(headersList: Headers): string {
+  return (
+    headersList.get('cf-connecting-ip') ??
+    headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    headersList.get('x-real-ip') ??
+    ''
+  );
+}
+
+export async function verifyTurnstileToken(token: string) {
+  const headersList = await headers();
+  const remoteip = getClientIp(headersList);
+
+  const result = await verifyTurnstileWithRetry(token, remoteip);
+  return result.success;
 }

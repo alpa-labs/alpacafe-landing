@@ -23,6 +23,7 @@ export function Footer() {
               height={40}
               width={120}
               className="object-contain"
+              style={{ width: 'auto' }}
             />
             <p className="mt-2 text-sm leading-relaxed">
               Ituzaingó 1202, Nueva Córdoba

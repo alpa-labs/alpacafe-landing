@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -12,22 +12,32 @@ import {
 } from '@/components/shared';
 import { submitContact } from './actions';
 import { contactSchema, type ContactSchema } from './contactSchema';
+import Script from 'next/script';
+import useTurnstile from '@/lib/hooks/useTurnstile';
 
 export function ContactForm() {
   const [status, setStatus] = useState<
     'idle' | 'sending' | 'success' | 'error'
   >('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const ref = useRef<HTMLDivElement>(null);
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting, isValid, dirtyFields },
   } = useForm<ContactSchema>({
     resolver: zodResolver(contactSchema),
     mode: 'onChange',
   });
+
+  const { buildTurnstile, resetTurnstile } = useTurnstile(
+    ref,
+    (token: string) => setValue('turnstileToken', token),
+  );
 
   const onSubmit = async (data: ContactSchema) => {
     setStatus('sending');
@@ -40,6 +50,7 @@ export function ContactForm() {
     } else {
       setStatus('error');
       setErrorMessage(result.error);
+      resetTurnstile();
     }
   };
 
@@ -88,6 +99,14 @@ export function ContactForm() {
           {errorMessage}
         </FormStatusMessage>
       )}
+
+      <Script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+        onReady={buildTurnstile}
+      />
+      <div ref={ref} data-sitekey={turnstileSiteKey} />
 
       <Button type="submit" disabled={isSubmitting || !isValid}>
         {isSubmitting ? 'Enviando...' : 'Enviar'}
