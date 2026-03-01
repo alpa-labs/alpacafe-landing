@@ -1,0 +1,339 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ============================================
+       COLOR PALETTE - Semantic Tokens
+       ============================================ */
+
+    /* Brand Colors - ALPA CAFÉ (Dark Theme) – use these three everywhere */
+    --brand-white: 0 0% 95%; /* #F2F2F2 */
+    --brand-grey: 200 7% 23%; /* #373D40 */
+    --brand-black: 210 17% 3%; /* #07090A */
+
+    --brand-primary: var(--brand-white);
+    --brand-secondary: var(--brand-white);
+    --brand-accent: var(--brand-white);
+
+    /* Neutral Colors */
+    --background: var(--brand-black);
+    --foreground: var(--brand-white);
+
+    /* Surface Colors */
+    --surface: var(--brand-black);
+    --surface-elevated: var(--brand-grey);
+    --surface-overlay: 0 0% 0% / 0.5;
+
+    /* Border / input (brand-white with alpha) */
+    --white-alpha-12: 0 0% 95% / 0.12;
+    --white-alpha-20: 0 0% 95% / 0.2;
+
+    /* Border Colors */
+    --border: var(--white-alpha-12);
+    --border-hover: var(--white-alpha-20);
+    --border-focus: var(--brand-white);
+
+    /* Input Colors */
+    --input: var(--white-alpha-12);
+    --input-hover: var(--white-alpha-20);
+    --ring: var(--brand-white);
+
+    /* Text Colors */
+    --text-primary: var(--brand-white);
+    --text-secondary: 0 0% 70%;
+    --text-tertiary: 0 0% 55%;
+    --text-inverse: var(--brand-black);
+
+    /* State Colors */
+    --success: 142 76% 36%;
+    --success-hover: 142 77% 31%;
+    --success-bg: 142 76% 95%;
+
+    --error: 0 84% 60%;
+    --error-hover: 0 72% 51%;
+    --error-bg: 0 86% 97%;
+
+    --warning: 38 92% 50%;
+    --warning-hover: 32 95% 44%;
+    --warning-bg: 48 96% 89%;
+
+    --info: 217 91% 60%;
+    --info-hover: 221 83% 53%;
+    --info-bg: 214 100% 97%;
+
+    /* Component-Specific Colors (Tailwind/Shadcn) */
+    --card: var(--surface);
+    --card-foreground: var(--brand-white);
+    --card-hover: var(--surface-elevated);
+    --card-border: var(--white-alpha-12);
+
+    --popover: var(--surface);
+    --popover-foreground: var(--brand-white);
+
+    --primary: var(--brand-white);
+    --primary-foreground: var(--brand-black);
+
+    --secondary: var(--surface-elevated);
+    --secondary-foreground: var(--brand-white);
+
+    --muted: var(--surface-elevated);
+    --muted-foreground: var(--text-secondary);
+
+    --accent: var(--brand-white);
+    --accent-foreground: var(--brand-black);
+
+    --destructive: var(--error);
+    --destructive-foreground: 0 0% 100%;
+
+    /* ============================================
+       SPACING & SIZING
+       ============================================ */
+    --radius-sm: 0.375rem; /* 6px */
+    --radius: 0.5rem; /* 8px */
+    --radius-md: 0.75rem; /* 12px */
+    --radius-lg: 1rem; /* 16px */
+    --radius-xl: 1.5rem; /* 24px */
+    --radius-full: 9999px;
+
+    /* ============================================
+       SHADOWS
+       ============================================ */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl:
+      0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+    /* ============================================
+       TRANSITIONS
+       ============================================ */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* ============================================
+   BUTTON STYLES (@layer components)
+   - Uses only --brand-white, --brand-grey, --brand-black.
+   - Button variants use these classes; do not add Tailwind border utilities
+     in Button base or they will override.
+   ============================================ */
+@layer components {
+  /* Border – brand-white with opacity */
+  .btn-border-default {
+    border-width: 0;
+    border-style: solid;
+    border-color: transparent;
+  }
+  .btn-border-outline {
+    border-width: 1px;
+    border-style: solid;
+    border-color: hsl(var(--brand-white));
+  }
+  .btn-border-ghost {
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+  }
+  .btn-border-ghost:hover {
+    border-color: hsl(var(--border));
+  }
+
+  /* Variant: default – brand-white bg, brand-black foreground */
+  .btn-variant-default {
+    background-color: hsl(var(--brand-white));
+    color: hsl(var(--brand-black));
+    font-weight: 700;
+  }
+  .btn-variant-default svg {
+    fill: hsl(var(--brand-black)) !important;
+  }
+  .btn-variant-default:hover {
+    background-color: hsl(var(--brand-white) / 0.65);
+    color: hsl(var(--brand-black));
+  }
+  .btn-variant-default:hover svg {
+    fill: hsl(var(--brand-black)) !important;
+  }
+
+  /* Variant: outline – transparent, brand-white border/text */
+  .btn-variant-outline {
+    background-color: transparent;
+    color: hsl(var(--brand-white));
+    font-weight: 700;
+  }
+  .btn-variant-outline:hover {
+    background-color: hsl(var(--brand-grey) / 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: hsl(var(--brand-white));
+  }
+
+  /* Variant: ghost – hover uses brand-white / brand-black */
+  .btn-variant-ghost:hover {
+    background-color: hsl(var(--brand-white) / 0.1);
+    color: hsl(var(--brand-white));
+    font-weight: 600;
+  }
+  .btn-variant-ghost:hover svg {
+    fill: hsl(var(--brand-white)) !important;
+  }
+}
+
+/* ============================================
+   SKIP LINK
+   ============================================ */
+.skip-link {
+  @apply absolute -top-20 left-4 z-[100] flex min-h-[2.75rem] min-w-[10rem] items-center justify-center rounded-md border-2 bg-transparent px-6 py-3 font-medium uppercase leading-none transition-[top];
+  border-color: hsl(var(--brand-white));
+  color: hsl(var(--brand-white));
+}
+.skip-link:hover {
+  background-color: hsl(var(--brand-white));
+  color: hsl(var(--brand-black));
+}
+.skip-link:focus {
+  @apply top-4 outline-2 outline-offset-2;
+  outline-color: hsl(var(--brand-white));
+}
+
+/* ============================================
+   HERO - Ease-in entrance
+   ============================================ */
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.hero-content-in {
+  animation: hero-fade-in 0.8s ease-in-out forwards;
+}
+.hero-content-reset {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@keyframes hero-scroll-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 16px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+.hero-scroll-in {
+  animation: hero-scroll-in 0.8s ease-in-out 0.3s forwards;
+}
+.hero-scroll-reset {
+  opacity: 0;
+  transform: translateX(-50%);
+}
+
+/* ============================================
+   ABOUT - Ease-in entrance
+   ============================================ */
+@keyframes about-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.about-content-in {
+  animation: about-fade-in 0.7s ease-in-out forwards;
+}
+.about-content-reset {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* ============================================
+   EVENTS - Taller slide-in from right
+   ============================================ */
+@keyframes taller-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.taller-img-in {
+  animation: taller-slide-in-right 0.6s ease-out forwards;
+}
+.taller-img-reset {
+  opacity: 0;
+  transform: translateX(32px);
+}
+.taller-text-in {
+  animation: taller-slide-in-right 0.6s ease-out 0.25s forwards;
+}
+.taller-text-reset {
+  opacity: 0;
+  transform: translateX(32px);
+}
+
+/* ============================================
+   EVENTS - Catas slide-in from left
+   ============================================ */
+@keyframes catas-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.catas-img-in {
+  animation: catas-slide-in-left 0.6s ease-out forwards;
+}
+.catas-img-reset {
+  opacity: 0;
+  transform: translateX(-32px);
+}
+.catas-text-in {
+  animation: catas-slide-in-left 0.6s ease-out 0.25s forwards;
+}
+.catas-text-reset {
+  opacity: 0;
+  transform: translateX(-32px);
+}

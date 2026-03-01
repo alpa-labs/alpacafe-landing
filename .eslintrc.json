@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
+  "ignorePatterns": [
+    ".next/",
+    "node_modules/",
+    "out/",
+    "*.config.js",
+    "*.config.mjs",
+    "*.config.ts"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "react/no-unescaped-entities": "off"
+  }
+}
