@@ -109,7 +109,7 @@ export const Button = React.forwardRef<
       ref={ref as React.Ref<HTMLButtonElement>}
       type={type as 'button' | 'submit' | 'reset'}
       className={sharedClass}
-      {...buttonProps}
+      {...(buttonProps as React.ButtonHTMLAttributes<HTMLButtonElement>)}
     >
       {iconLeftEl}
       {hasLabel ? <span className="translate-y-[2px]">{children}</span> : null}

@@ -8,3 +8,4 @@ export { MapsIcon } from './MapsIcon';
 export { CheckCircleIcon } from './CheckCircleIcon';
 export { WarningIcon } from './WarningIcon';
 export { ErrorIcon } from './ErrorIcon';
+export type { IconProps } from './types';
