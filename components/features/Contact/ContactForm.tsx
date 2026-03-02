@@ -101,13 +101,25 @@ export function ContactForm() {
         </FormStatusMessage>
       )}
 
-      <Script
-        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-        async
-        defer
-        onReady={buildTurnstile}
-      />
-      <div ref={ref} data-sitekey={turnstileSiteKey} />
+      {turnstileSiteKey ? (
+        <>
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            strategy="afterInteractive"
+            onReady={buildTurnstile}
+          />
+          <div
+            ref={ref}
+            className="min-h-[65px] flex items-center"
+            data-sitekey={turnstileSiteKey}
+            aria-label="Verificación de seguridad"
+          />
+        </>
+      ) : (
+        <p className="text-sm text-muted-foreground">
+          Configurá NEXT_PUBLIC_TURNSTILE_SITE_KEY para habilitar la verificación.
+        </p>
+      )}
 
       <Button type="submit" disabled={isSubmitting || !isValid}>
         {isSubmitting ? 'Enviando...' : 'Enviar'}

@@ -1,21 +1,25 @@
-import { RefObject, useEffect, useState } from 'react';
+import { RefObject, useCallback, useEffect, useState } from 'react';
 
-declare const turnstile: {
-  render: (
-    element: HTMLElement | string,
-    options: {
-      sitekey: string;
-      language?: string;
-      theme?: 'auto' | 'light' | 'dark';
-      execution?: 'render' | 'execute';
-      callback: (token: string) => void;
-      'error-callback'?: (ref: RefObject<HTMLDivElement>) => void;
-    },
-  ) => string;
-  remove: (widgetId: string) => void;
-  execute: (widgetId: string) => void;
-  reset: (widgetId: string) => void;
-};
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        element: HTMLElement | string,
+        options: {
+          sitekey: string;
+          language?: string;
+          theme?: 'auto' | 'light' | 'dark';
+          execution?: 'render' | 'execute';
+          callback: (token: string) => void;
+          'error-callback'?: () => void;
+        },
+      ) => string;
+      remove: (widgetId: string) => void;
+      execute: (widgetId: string) => void;
+      reset: (widgetId: string) => void;
+    };
+  }
+}
 
 export default function useTurnstile(
   ref: RefObject<HTMLDivElement>,
@@ -24,43 +28,54 @@ export default function useTurnstile(
   const [widgetId, setWidgetId] = useState<string | null>(null);
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
-  function buildTurnstile() {
-    if (ref.current === null) {
+  const buildTurnstile = useCallback(() => {
+    if (
+      typeof window === 'undefined' ||
+      !window.turnstile ||
+      ref.current === null ||
+      !turnstileSiteKey
+    ) {
       return;
     }
+    if (widgetId) return; // Already rendered
 
-    // render widget inside the ref
+    const turnstile = window.turnstile;
     const widgetIdRendered = turnstile.render(ref.current, {
-      sitekey: turnstileSiteKey || '',
+      sitekey: turnstileSiteKey,
       language: 'es',
       theme: 'dark',
       execution: 'render',
       callback: (token: string) => updateToken(token),
       'error-callback': () => {
         updateToken('');
-        // Don't call reset() here - it triggers another challenge attempt,
-        // which with "always blocks" key causes an infinite retry loop.
-        // Use resetTurnstile() after form errors instead.
       },
     });
     setWidgetId(widgetIdRendered);
-  }
+  }, [turnstileSiteKey, updateToken, widgetId]);
 
   // If validation fails, reset the widget and try again
   function resetTurnstile() {
-    if (!widgetId || typeof turnstile === 'undefined') {
+    if (!widgetId || typeof window === 'undefined' || !window.turnstile) {
       return;
     }
-
-    turnstile.reset(widgetId);
-    turnstile.execute(widgetId);
+    window.turnstile.reset(widgetId);
+    window.turnstile.execute(widgetId);
   }
+
+  // Handle script-already-loaded (e.g. React Strict Mode remount, cached script)
+  // Next.js Script onReady may not fire again when script is cached
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      buildTurnstile();
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [buildTurnstile]);
 
   useEffect(() => {
     return () => {
-      if (widgetId && typeof turnstile !== 'undefined') {
+      if (widgetId && typeof window !== 'undefined' && window.turnstile) {
         try {
-          turnstile.remove(widgetId);
+          window.turnstile.remove(widgetId);
         } catch {
           // Widget may already be removed when DOM is cleared (e.g. navigation)
         }
