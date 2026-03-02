@@ -11,20 +11,23 @@ import { ContactForm } from '@/components/features/Contact/ContactForm';
 import { SECTION_NAMES, URL } from '@/lib/constants';
 import { Heading, Section, Subtitle } from '@/components/shared';
 import { contactData } from './data';
+import { MotionDiv } from '@/components/shared/layout/MotionDiv';
 
 export function ContactSection() {
   return (
     <Section id={SECTION_NAMES.contact} aria-labelledby="contact-title">
       <div className="mx-auto max-w-[1120px] px-6">
-        <Subtitle id="contact-label">{contactData.subtitle}</Subtitle>
-        <Heading as="h2" id="contact-title">
-          {contactData.title}
-        </Heading>
-        <p className="mb-10 max-w-[560px] text-muted-foreground">
-          {contactData.intro}
-        </p>
+        <MotionDiv>
+          <Subtitle id="contact-label">{contactData.subtitle}</Subtitle>
+          <Heading as="h2" id="contact-title">
+            {contactData.title}
+          </Heading>
+          <p className="mb-10 max-w-[560px] text-muted-foreground">
+            {contactData.intro}
+          </p>
+        </MotionDiv>
         <div className="grid gap-10 md:grid-cols-2 md:gap-12">
-          <div className="flex flex-col gap-8">
+          <MotionDiv className="flex flex-col gap-8">
             <div>
               <Heading as="h3">{contactData.addressLabel}</Heading>
               <address className="not-italic text-muted-foreground">
@@ -72,9 +75,11 @@ export function ContactSection() {
                 />
               </div>
             </div>
-          </div>
+          </MotionDiv>
           {/* Right: Form */}
-          <ContactForm />
+          <MotionDiv>
+            <ContactForm />
+          </MotionDiv>
         </div>
       </div>
     </Section>

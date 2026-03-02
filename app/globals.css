@@ -208,7 +208,7 @@ body {
      FORM STYLES
      ============================================ */
   .form-field-base {
-    @apply w-full rounded-lg border-[2px] bg-[hsl(var(--brand-grey))] px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary;
+    @apply w-full rounded-lg border-[2px] bg-muted/90 px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary;
   }
 
   .form-field-base:invalid,
@@ -217,15 +217,15 @@ body {
   }
 
   .form-label {
-    @apply ml-1.5 mb-1.5 block text-sm font-medium text-foreground;
+    @apply ml-1.5 mb-1.5 block font-medium text-foreground;
   }
 
   .form-helper-text {
-    @apply ml-1.5 mt-1.5 text-xs text-muted-foreground;
+    @apply ml-1.5 mt-1.5 text-sm text-muted-foreground;
   }
 
   .form-error-text {
-    @apply ml-1.5 mt-1.5 text-xs text-red-500;
+    @apply ml-1.5 mt-1.5 text-sm text-red-500;
   }
 }
 

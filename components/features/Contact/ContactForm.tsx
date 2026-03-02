@@ -65,6 +65,7 @@ export function ContactForm() {
         name="name"
         label="Nombre"
         placeholder="Juan Pérez"
+        required
         error={dirtyFields.name ? errors.name?.message : undefined}
         register={register('name')}
       />

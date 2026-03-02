@@ -3,15 +3,8 @@ import { z } from 'zod';
 export const contactSchema = z.object({
   name: z
     .string()
-    .min(0)
-    .refine((val) => {
-      const trimmed = val.trim();
-      return trimmed.length === 0 || trimmed.length >= 2;
-    }, 'El nombre debe tener al menos 2 caracteres')
-    .refine((val) => {
-      const trimmed = val.trim();
-      return trimmed.length === 0 || trimmed.length <= 50;
-    }, 'El nombre no puede tener más de 50 caracteres')
+    .min(2, 'El nombre es obligatorio')
+    .max(50, 'El nombre no puede tener más de 50 caracteres')
     .transform((s) => s.trim()),
   email: z
     .string()
