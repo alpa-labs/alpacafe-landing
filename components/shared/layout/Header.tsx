@@ -91,7 +91,7 @@ export function Header() {
             src={IMAGE_URL.LOGO.LOGO_CIRCLE}
             alt="ALPA CAFÉ"
             fill
-            className="object-cover"
+            className="object-cover border-none"
             sizes="44px"
             priority
           />
