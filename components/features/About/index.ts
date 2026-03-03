@@ -1,3 +1,3 @@
 export { AboutSection } from './AboutSection';
-export { aboutData } from './data';
-export type { AboutContent } from './types';
+export { aboutData } from './about.data';
+export type { AboutContent } from './about.types';

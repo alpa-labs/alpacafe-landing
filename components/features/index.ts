@@ -1,6 +1,6 @@
-export { HeroSection } from './Hero/HeroSection';
-export { AboutSection } from './About/AboutSection';
-export { MenuSection } from './Menu/MenuSection';
-export { ProductsSection } from './Products/ProductsSection';
-export { EventsSection } from './Events/EventsSection';
-export { ContactSection } from './Contact/ContactSection';
+export { HeroSection } from './hero/HeroSection';
+export { AboutSection } from './about/AboutSection';
+export { MenuSection } from './menu/MenuSection';
+export { ProductsSection } from './products/ProductsSection';
+export { EventsSection } from './events/EventsSection';
+export { ContactSection } from './contact/ContactSection';

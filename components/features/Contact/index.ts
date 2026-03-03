@@ -1,3 +1,3 @@
 export { ContactSection } from './ContactSection';
-export { contactData } from './data';
-export type { ContactContent } from './types';
+export { contactData } from './contact.data';
+export type { ContactContent } from './contact.types';

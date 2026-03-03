@@ -5,10 +5,11 @@ import {
   InstagramIcon,
   TiktokIcon,
 } from '@/components/shared/icons';
-import { IMAGE_URL, NAV, URL } from '@/lib/constants';
+import { siteImages, siteNav } from '@/lib/constants';
+import { siteConfig } from '@/lib/site.config';
 import { Button, Heading } from '@/components/shared';
 import Image from 'next/image';
-import { contactData } from '@/components/features/Contact/data';
+import { contactData } from '@/components/features/contact/contact.data';
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -21,8 +22,8 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           <div>
             <Image
-              src={IMAGE_URL.LOGO.LOGO_WORDMARK}
-              alt="ALPA CAFÉ"
+              src={siteImages.logo.wordmark}
+              alt={siteConfig.name}
               height={40}
               width={120}
               className="object-contain"
@@ -38,19 +39,19 @@ export function Footer() {
             </p>
             <div className="mt-4 flex gap-2">
               <Button
-                href={URL.INSTAGRAM}
+                href={siteConfig.social.instagram}
                 icon={InstagramIcon}
                 aria-label="Instagram"
                 size="icon"
               />
               <Button
-                href={URL.FACEBOOK}
+                href={siteConfig.social.facebook}
                 icon={FacebookIcon}
                 aria-label="Facebook"
                 size="icon"
               />
               <Button
-                href={URL.TIKTOK}
+                href={siteConfig.social.tiktok}
                 icon={TiktokIcon}
                 aria-label="TikTok"
                 size="icon"
@@ -85,7 +86,7 @@ export function Footer() {
               Enlaces
             </Heading>
             <ul className="mt-3 space-y-2">
-              {NAV.map(({ href, label }) => (
+              {siteNav.map(({ href, label }) => (
                 <li key={href}>
                   <a
                     href={href}
@@ -101,7 +102,8 @@ export function Footer() {
 
         <div className="mt-10 border-t border-border pt-6">
           <p className="text-left text-muted-foreground">
-            © {year} <b>ALPA CAFÉ®</b>. Todos los derechos reservados.
+            © {year} <b>{siteConfig.nameRegistered}</b>. Todos los derechos
+            reservados.
           </p>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 import { Resend } from 'resend';
 import { headers } from 'next/headers';
 import { checkRateLimitFromHeaders } from '@/lib/rate-limit';
-import { contactSchema, type ContactSchema } from './contactSchema';
+import { contactSchema, type ContactSchema } from './contact.schema';
 
 type ContactResult =
   | { success: true }
@@ -126,7 +126,10 @@ async function sendEmail({
     });
 
     if (error) {
-      console.error('Error enviando email:', error);
+      console.error(
+        `Error sending email from ${RESEND_FROM_EMAIL} to ${RESEND_TO_EMAIL}:`,
+        error,
+      );
       return {
         error: 'No se pudo enviar. Intentá más tarde.',
       };

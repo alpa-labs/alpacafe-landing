@@ -1,9 +1,9 @@
 'use client';
 
 import { AngleSmallDownIcon } from '@/components/shared/icons';
-import { URL } from '@/lib/constants';
+import { siteConfig } from '@/lib/site.config';
 import { Button } from '@/components/shared/ui';
-import { heroData } from './data';
+import { heroData } from './hero.data';
 import { MotionDiv } from '@/components/shared/layout/MotionDiv';
 
 export function HeroSection() {
@@ -38,7 +38,7 @@ export function HeroSection() {
         >
           {heroData.title}
         </h1>
-        <Button href={URL.MENU} variant="outline">
+        <Button href={siteConfig.menu} variant="outline">
           {heroData.ctaText}
         </Button>
       </MotionDiv>

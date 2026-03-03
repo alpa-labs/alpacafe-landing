@@ -1,66 +1,75 @@
 'use client';
 
 import { useEffect } from 'react';
-import { SECTION_IDS } from '@/lib/constants';
-const TOP_OFFSET = 120; // px from top of viewport to consider section "active"
+import { siteSections } from '@/lib/constants';
+
+const TOP_OFFSET = 120; // px offset for fixed header
+const SECTION_IDS = Object.values(siteSections);
 
 export function ScrollSpy() {
   useEffect(() => {
-    let ticking = false;
+    const sections = SECTION_IDS.map((id) =>
+      document.getElementById(id),
+    ).filter((el): el is HTMLElement => el !== null);
 
-    const updateHash = () => {
-      let activeId: string | null = null;
-      for (const id of SECTION_IDS) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= TOP_OFFSET) {
-          activeId = id;
+    if (sections.length === 0) return;
+
+    let activeId: string | null = null;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // We only care about entries intersecting the adjusted viewport
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              a.target.getBoundingClientRect().top -
+              b.target.getBoundingClientRect().top,
+          );
+
+        if (visible.length === 0) return;
+
+        const newActiveId = visible[0].target.id;
+
+        if (activeId !== newActiveId) {
+          activeId = newActiveId;
+
+          const newHash = `#${newActiveId}`;
+          if (window.location.hash !== newHash) {
+            history.replaceState(
+              null,
+              '',
+              window.location.pathname + window.location.search + newHash,
+            );
+          }
         }
-      }
+      },
+      {
+        // Shrink top of viewport by header height
+        root: null,
+        rootMargin: `-${TOP_OFFSET}px 0px 0px 0px`,
+        threshold: 0.1, // triggers when at least 10% is visible
+      },
+    );
 
-      const newHash = activeId ? `#${activeId}` : '';
-      if (window.location.hash !== newHash) {
-        history.replaceState(
-          null,
-          '',
-          window.location.pathname + window.location.search + newHash,
-        );
-      }
-      ticking = false;
-    };
+    sections.forEach((section) => observer.observe(section));
 
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(updateHash);
-      }
-    };
-
-    // Scroll to hash on load (e.g. refresh on #events) and after nav click
+    // Scroll to hash on initial load
     const scrollToHash = () => {
       const hash = window.location.hash.slice(1);
-      if (hash && SECTION_IDS.includes(hash as (typeof SECTION_IDS)[number])) {
-        const el = document.getElementById(hash);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+      if (!hash) return;
+
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     };
 
-    updateHash();
-    // Scroll to section when page loads with hash (e.g. #events) or after nav click
-    const t = window.setTimeout(() => {
-      updateHash();
-      scrollToHash();
-    }, 150);
-
-    window.addEventListener('scroll', onScroll, { passive: true });
+    scrollToHash();
     window.addEventListener('hashchange', scrollToHash);
 
     return () => {
-      window.clearTimeout(t);
-      window.removeEventListener('scroll', onScroll);
+      observer.disconnect();
       window.removeEventListener('hashchange', scrollToHash);
     };
   }, []);

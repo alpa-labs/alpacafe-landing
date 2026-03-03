@@ -1,13 +1,13 @@
 'use client';
 
-import { SECTION_NAMES } from '@/lib/constants';
-import { aboutData } from './data';
+import { siteSections } from '@/lib/constants';
+import { aboutData } from './about.data';
 import { Section, Subtitle, Heading } from '@/components/shared';
 import { MotionDiv } from '@/components/shared/layout/MotionDiv';
 
 export function AboutSection() {
   return (
-    <Section id={SECTION_NAMES.about} aria-labelledby="about-title">
+    <Section id={siteSections.about} aria-labelledby="about-title">
       <MotionDiv className="mx-auto max-w-[1120px] px-6">
         <Subtitle>{aboutData.subtitle}</Subtitle>
         <Heading

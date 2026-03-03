@@ -1,14 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { SECTION_NAMES, URL } from '@/lib/constants';
+import { siteSections } from '@/lib/constants';
+import { siteConfig } from '@/lib/site.config';
 import { Heading, Section, Subtitle, Button } from '@/components/shared';
-import { menuData } from './data';
+import { menuData } from './menu.data';
 import { MotionDiv } from '@/components/shared/layout/MotionDiv';
 
 export function MenuSection() {
   return (
-    <Section id={SECTION_NAMES.menu} aria-labelledby="menu-title">
+    <Section id={siteSections.menu} aria-labelledby="menu-title">
       <MotionDiv className="mx-auto max-w-[1120px] px-6">
         <Subtitle>{menuData.subtitle}</Subtitle>
         <Heading as="h2" id="menu-title">
@@ -32,7 +33,7 @@ export function MenuSection() {
         ))}
       </div>
       <MotionDiv className="mx-auto max-w-[1120px] px-6 flex justify-center">
-        <Button href={URL.MENU} variant="outline">
+        <Button href={siteConfig.menu} variant="outline">
           {menuData.ctaText}
         </Button>
       </MotionDiv>

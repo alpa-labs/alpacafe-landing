@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/shared/ui';
 import { cn } from '@/lib/utils';
-import { IMAGE_URL, NAV } from '@/lib/constants';
+import { siteImages, siteNav } from '@/lib/constants';
 import { MenuIcon } from '@/components/shared/icons';
 
 const HERO_THRESHOLD = 0.4; // percentage of hero visibility
@@ -88,7 +88,7 @@ export function Header() {
           aria-label="ALPA CAFÉ - Home"
         >
           <Image
-            src={IMAGE_URL.LOGO.LOGO_CIRCLE}
+            src={siteImages.logo.circle}
             alt="ALPA CAFÉ"
             fill
             className="object-cover border-none"
@@ -103,7 +103,7 @@ export function Header() {
           aria-label="Navegación principal"
         >
           <ul className="flex gap-8">
-            {NAV.map(({ href, label }) => (
+            {siteNav.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
@@ -147,7 +147,7 @@ export function Header() {
         aria-label="Navegación móvil"
       >
         <ul className="flex flex-col gap-1 px-6 py-4">
-          {NAV.map(({ href, label }) => (
+          {siteNav.map(({ href, label }) => (
             <li key={href}>
               <Link
                 href={href}

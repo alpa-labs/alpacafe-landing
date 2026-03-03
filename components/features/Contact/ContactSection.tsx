@@ -7,15 +7,16 @@ import {
   TiktokIcon,
 } from '@/components/shared/icons';
 import { Button } from '@/components/shared/ui';
-import { ContactForm } from '@/components/features/Contact/ContactForm';
-import { SECTION_NAMES, URL } from '@/lib/constants';
+import { ContactForm } from '@/components/features/contact/ContactForm';
+import { siteSections } from '@/lib/constants';
+import { siteConfig } from '@/lib/site.config';
 import { Heading, Section, Subtitle } from '@/components/shared';
-import { contactData } from './data';
+import { contactData } from './contact.data';
 import { MotionDiv } from '@/components/shared/layout/MotionDiv';
 
 export function ContactSection() {
   return (
-    <Section id={SECTION_NAMES.contact} aria-labelledby="contact-title">
+    <Section id={siteSections.contact} aria-labelledby="contact-title">
       <div className="mx-auto max-w-[1120px] px-6">
         <MotionDiv>
           <Subtitle id="contact-label">{contactData.subtitle}</Subtitle>
@@ -35,7 +36,7 @@ export function ContactSection() {
                   {contactData.addressLines}
                 </p>
                 <Button
-                  href={URL.MAPS}
+                  href={siteConfig.maps}
                   icon={MapsIcon}
                   aria-label="Maps"
                   variant="outline"
@@ -56,19 +57,19 @@ export function ContactSection() {
               </Heading>
               <div className="flex gap-2">
                 <Button
-                  href={URL.INSTAGRAM}
+                  href={siteConfig.social.instagram}
                   icon={InstagramIcon}
                   aria-label="Instagram"
                   size="icon"
                 />
                 <Button
-                  href={URL.FACEBOOK}
+                  href={siteConfig.social.facebook}
                   icon={FacebookIcon}
                   aria-label="Facebook"
                   size="icon"
                 />
                 <Button
-                  href={URL.TIKTOK}
+                  href={siteConfig.social.tiktok}
                   icon={TiktokIcon}
                   aria-label="TikTok"
                   size="icon"

@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { SECTION_NAMES } from '@/lib/constants';
+import { siteSections } from '@/lib/constants';
 import { Button, Heading, Section, Subtitle } from '@/components/shared';
-import { productsData } from './data';
+import { productsData } from './products.data';
 import { MotionDiv } from '@/components/shared/layout/MotionDiv';
 
 export function ProductsSection() {
   return (
-    <Section id={SECTION_NAMES.products} aria-labelledby="products-title">
+    <Section id={siteSections.products} aria-labelledby="products-title">
       <MotionDiv className="mx-auto max-w-[1120px] px-6">
         <Subtitle>{productsData.subtitle}</Subtitle>
         <Heading as="h2" id="products-title">

@@ -35,13 +35,22 @@ app/
   robots.ts           # Robots.txt
 components/
   features/           # Section components (Hero, About, Menu, Products, Events, Contact)
+    */feature.data.ts # Content per section (hero.data.ts, menu.data.ts, etc.)
+    */feature.types.ts
   shared/             # UI components, layout (Header, Footer), icons
 lib/
-  constants.ts        # URLs, section IDs, nav links
-  rate-limit.ts      # Contact form rate limiting
+  site.config.ts      # siteConfig, siteImages
+  constants.ts        # siteSections, siteNav, siteImages (re-export)
+  rate-limit.ts       # Contact form rate limiting
+public/images/
+  logo/               # Brand assets
+  hero/               # Hero section images
+  events/             # Event images
+  products/           # Product images
+  menu/               # Menu gallery images
 ```
 
-**Sections** (in order): Hero → About → Menu → Products → Events → Contact. Content is data-driven via `data.ts` files in each feature folder.
+**Sections** (in order): Hero → About → Menu → Products → Events → Contact. Content is data-driven via `feature.data.ts` files in each feature folder.
 
 ## Initial Setup
 
@@ -62,11 +71,45 @@ Create a `.env` file based on `.env.example` and fill in the required values:
 
 | Variable | Purpose |
 |----------|---------|
-| `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_TO_EMAIL` | Contact form email delivery |
+| `RESEND_API_KEY` | Resend API key for contact form |
+| `RESEND_FROM_EMAIL` | Sender address. **Production**: use a verified domain (e.g. `onboarding@yourdomain.com`). Verify at [resend.com/domains](https://resend.com/domains). |
+| `RESEND_TO_EMAIL` | Recipient for contact form submissions |
 | `NEXT_PUBLIC_BASE_URL` | Canonical URL for sitemap, robots, Open Graph |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile CAPTCHA for contact form |
 
-For local development, use the test keys in `.env.example` (always passes verification).
+**Resend**: On the free tier, you can only send to your Resend account email until you verify a domain. Add your domain in Resend, add the DNS records to your provider, then use a `@yourdomain.com` address for `RESEND_FROM_EMAIL`.
+
+**Turnstile**: For local development, use the test keys in `.env.example` (always passes verification).
+
+## Site Configuration
+
+All brand and content config lives in `lib/site.config.ts`:
+
+### siteConfig
+
+| Key | Description |
+|-----|-------------|
+| `name` | Brand name (e.g. "ALPA CAFÉ") |
+| `nameRegistered` | Brand name with ® (e.g. "ALPA CAFÉ®") |
+| `year` | Current year (for footer) |
+| `social` | `instagram`, `facebook`, `tiktok`, `instagramAlpacaos` |
+| `address` | Physical address (Contact section, Footer) |
+| `hours` | Opening hours (Contact section, Footer) |
+| `menu` | Link to menu (Google Drive, etc.) |
+| `maps` | Google Maps link |
+| `whatsapp` | WhatsApp group/channel link |
+
+### siteImages
+
+| Section | Keys |
+|---------|------|
+| `logo` | `circle`, `wordmark` |
+| `hero` | `background` |
+| `events` | `homeCoffeeWorkshop`, `tasting`, `coffeeBreak` |
+| `products` | `alpacaos`, `alpaBeans`, `alpaCups`, `alpaSpoons` |
+| `menu` | `hotCoffee`, `icedCoffee`, `scondwitch`, `brewing`, `food`, `cookies` |
+
+Update this file to change site-wide content.
 
 ## Development
 
@@ -101,11 +144,11 @@ Deploy to **Vercel**, **Netlify**, or any Node host that supports Next.js.
 
 ### Pre-Deployment Checklist
 
-1. Set **canonical URL** and **Open Graph** `url` in `app/layout.tsx` metadata (or via `NEXT_PUBLIC_BASE_URL`)
+1. Set **canonical URL** and **Open Graph** `url` (or via `NEXT_PUBLIC_BASE_URL`)
 2. Add **og:image** in metadata for social previews
-3. Configure contact environment variables (`RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_TO_EMAIL`)
-4. Configure **Turnstile** keys (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`) for production
-5. Update contact links in `lib/constants.ts` if needed
+3. **Resend**: Verify your domain at [resend.com/domains](https://resend.com/domains), add DNS records, and set `RESEND_FROM_EMAIL` to an address on that domain (e.g. `onboarding@yourdomain.com`)
+4. Configure **Turnstile** keys for production (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`)
+5. Update `lib/site.config.ts` with your brand info, social links, and address
 6. Verify rate limiting settings in `lib/rate-limit.ts`
 
 ## Form Architecture
@@ -136,6 +179,7 @@ The project uses a consistent styling approach:
 - **Type Safety**: Style constants exported from TypeScript files for autocompletion
 
 This approach provides:
+
 - Consistency across components
 - Easy theme customization
 - Better performance (CSS compiled once)
@@ -149,6 +193,7 @@ This approach provides:
 - **Rate Limiting**: Prevents spam (3 requests per minute)
 - **XSS Protection**: HTML escaping for user input
 - **Email Template**: Clean HTML email template with escaped content
+- **Recipient**: Set via `RESEND_TO_EMAIL` in `.env`
 - **Accessibility**: ARIA labels, error announcements, keyboard navigation
 
 ## License

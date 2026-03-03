@@ -1,4 +1,4 @@
-import type { AboutContent } from './types';
+import type { AboutContent } from './about.types';
 
 export const aboutData: AboutContent = {
   subtitle: 'Nuestra historia',

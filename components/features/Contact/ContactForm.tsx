@@ -10,8 +10,8 @@ import {
   FormTextArea,
   Heading,
 } from '@/components/shared';
-import { submitContact } from './actions';
-import { contactSchema, type ContactSchema } from './contactSchema';
+import { submitContact } from './contact.actions';
+import { contactSchema, type ContactSchema } from './contact.schema';
 import Script from 'next/script';
 import useTurnstile from '@/lib/hooks/useTurnstile';
 
@@ -117,7 +117,8 @@ export function ContactForm() {
         </>
       ) : (
         <p className="text-sm text-muted-foreground">
-          Configurá NEXT_PUBLIC_TURNSTILE_SITE_KEY para habilitar la verificación.
+          Configurá NEXT_PUBLIC_TURNSTILE_SITE_KEY para habilitar la
+          verificación.
         </p>
       )}
 
