@@ -7,7 +7,7 @@ import {
   TiktokIcon,
 } from '@/components/shared/icons';
 import { Button } from '@/components/shared/ui';
-import { ContactForm } from '@/components/features/contact/ContactForm';
+import { ContactForm } from './ContactForm';
 import { siteSections } from '@/lib/constants';
 import { siteConfig } from '@/lib/site.config';
 import { Heading, Section, Subtitle } from '@/components/shared';
