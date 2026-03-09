@@ -1,15 +1,11 @@
 'use client';
 
-import {
-  FacebookIcon,
-  InstagramIcon,
-  TiktokIcon,
-} from '@/components/shared/icons';
+import { FacebookIcon, InstagramIcon, TiktokIcon } from '@/components/icons';
 import { siteImages, siteNav } from '@/lib/constants';
 import { siteConfig } from '@/lib/site.config';
-import { Button, Heading } from '@/components/shared';
+import { Button, Heading } from '@/components';
 import Image from 'next/image';
-import { contactData } from '@/components/features/contact/contact.data';
+import { contactData } from '@/app/sections/contact/contact.data';
 
 export function Footer() {
   const year = new Date().getFullYear();

@@ -1,4 +1,4 @@
-import { Header, Footer } from '@/components/shared/layout';
+import { Header, Footer } from '@/components/layout';
 import {
   HeroSection,
   AboutSection,
@@ -6,7 +6,7 @@ import {
   ProductsSection,
   EventsSection,
   ContactSection,
-} from '@/components/features';
+} from '@/app/sections';
 
 export default function Home() {
   return (

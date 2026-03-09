@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import type { IconProps } from '@/components/shared/icons';
+import type { IconProps } from '@/components/icons';
 
 /* Border and variant styles live in globals.css (.btn-border-*, .btn-variant-*). Do not add Tailwind border-* in base/variants or they may override. */
 const buttonVariants = cva(

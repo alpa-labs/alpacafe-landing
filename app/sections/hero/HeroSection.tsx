@@ -1,10 +1,10 @@
 'use client';
 
-import { AngleSmallDownIcon } from '@/components/shared/icons';
+import { AngleSmallDownIcon } from '@/components/icons';
 import { siteConfig } from '@/lib/site.config';
-import { Button } from '@/components/shared/ui';
+import { Button } from '@/components/ui';
 import { heroData } from './hero.data';
-import { MotionDiv } from '@/components/shared/layout/MotionDiv';
+import { MotionDiv } from '@/components/layout/MotionDiv';
 
 export function HeroSection() {
   return (

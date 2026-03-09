@@ -2,11 +2,11 @@
 
 import { forwardRef } from 'react';
 import Image from 'next/image';
-import { WhatsappIcon } from '@/components/shared/icons';
-import { Button, Heading } from '@/components/shared';
+import { WhatsappIcon } from '@/components/icons';
+import { Button, Heading } from '@/components';
 import type { EventItem } from './events.types';
 import { cn } from '@/lib/utils';
-import { MotionDiv } from '@/components/shared/layout/MotionDiv';
+import { MotionDiv } from '@/components/layout/MotionDiv';
 
 type EventProps = {
   item: EventItem;

@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-export default function useTurnstile(
+export function useTurnstile(
   ref: RefObject<HTMLDivElement>,
   updateToken: (token: string) => void,
 ) {

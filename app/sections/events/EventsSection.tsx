@@ -1,10 +1,10 @@
 'use client';
 
 import { siteSections } from '@/lib/constants';
-import { Heading, Section, Subtitle } from '@/components/shared';
+import { Heading, Section, Subtitle } from '@/components';
 import { eventsData } from './events.data';
 import { Event } from './Event';
-import { MotionDiv } from '@/components/shared/layout/MotionDiv';
+import { MotionDiv } from '@/components/layout/MotionDiv';
 
 export function EventsSection() {
   const { subtitle, title, items } = eventsData;

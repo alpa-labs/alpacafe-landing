@@ -9,11 +9,11 @@ import {
   FormStatusMessage,
   FormTextArea,
   Heading,
-} from '@/components/shared';
+} from '@/components';
 import { submitContact } from './contact.actions';
 import { contactSchema, type ContactSchema } from './contact.schema';
 import Script from 'next/script';
-import useTurnstile from '@/lib/hooks/useTurnstile';
+import { useTurnstile } from '@/hooks';
 
 export function ContactForm() {
   const [status, setStatus] = useState<

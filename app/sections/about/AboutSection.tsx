@@ -2,8 +2,8 @@
 
 import { siteSections } from '@/lib/constants';
 import { aboutData } from './about.data';
-import { Section, Subtitle, Heading } from '@/components/shared';
-import { MotionDiv } from '@/components/shared/layout/MotionDiv';
+import { Section, Subtitle, Heading } from '@/components';
+import { MotionDiv } from '@/components/layout/MotionDiv';
 
 export function AboutSection() {
   return (

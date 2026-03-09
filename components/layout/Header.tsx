@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/shared/ui';
+import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { siteImages, siteNav } from '@/lib/constants';
-import { MenuIcon } from '@/components/shared/icons';
+import { MenuIcon } from '@/components/icons';
 
 const HERO_THRESHOLD = 0.4; // percentage of hero visibility
 const MOBILE_BREAKPOINT = 768; // match Tailwind md

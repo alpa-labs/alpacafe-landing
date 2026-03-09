@@ -3,9 +3,9 @@
 import Image from 'next/image';
 import { siteSections } from '@/lib/constants';
 import { siteConfig } from '@/lib/site.config';
-import { Heading, Section, Subtitle, Button } from '@/components/shared';
+import { Heading, Section, Subtitle, Button } from '@/components';
 import { menuData } from './menu.data';
-import { MotionDiv } from '@/components/shared/layout/MotionDiv';
+import { MotionDiv } from '@/components/layout/MotionDiv';
 
 export function MenuSection() {
   return (

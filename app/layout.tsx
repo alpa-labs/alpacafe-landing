@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Josefin_Sans } from 'next/font/google';
-import { ScrollSpy } from '@/components/shared/ui/ScrollSpy';
+import { ScrollSpy } from '@/components';
 import { siteImages } from '@/lib/constants';
 import { siteConfig } from '@/lib/site.config';
 import './globals.css';

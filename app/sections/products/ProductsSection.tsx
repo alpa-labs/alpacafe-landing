@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import { siteSections } from '@/lib/constants';
-import { Button, Heading, Section, Subtitle } from '@/components/shared';
+import { Button, Heading, Section, Subtitle } from '@/components';
 import { productsData } from './products.data';
-import { MotionDiv } from '@/components/shared/layout/MotionDiv';
+import { MotionDiv } from '@/components/layout/MotionDiv';
 
 export function ProductsSection() {
   return (

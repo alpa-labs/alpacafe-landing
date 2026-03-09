@@ -1,9 +1,5 @@
 import { cn } from '@/lib/utils';
-import {
-  CheckCircleIcon,
-  ErrorIcon,
-  WarningIcon,
-} from '@/components/shared/icons';
+import { CheckCircleIcon, ErrorIcon, WarningIcon } from '@/components/icons';
 
 export type FormStatusMessageVariant = 'success' | 'error' | 'warning';
 
@@ -42,7 +38,7 @@ export function FormStatusMessage({
   return (
     <p
       className={cn('flex items-center gap-2 text-sm', variantClass, className)}
-      role={roleAlert ?? isError ? 'alert' : undefined}
+      role={(roleAlert ?? isError) ? 'alert' : undefined}
     >
       <Icon size={20} className="shrink-0" />
       {children}

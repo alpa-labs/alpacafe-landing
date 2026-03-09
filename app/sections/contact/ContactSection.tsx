@@ -5,14 +5,14 @@ import {
   InstagramIcon,
   MapsIcon,
   TiktokIcon,
-} from '@/components/shared/icons';
-import { Button } from '@/components/shared/ui';
+} from '@/components/icons';
+import { Button } from '@/components/ui';
 import { ContactForm } from './ContactForm';
 import { siteSections } from '@/lib/constants';
 import { siteConfig } from '@/lib/site.config';
-import { Heading, Section, Subtitle } from '@/components/shared';
+import { Heading, Section, Subtitle } from '@/components';
 import { contactData } from './contact.data';
-import { MotionDiv } from '@/components/shared/layout/MotionDiv';
+import { MotionDiv } from '@/components/layout/MotionDiv';
 
 export function ContactSection() {
   return (
